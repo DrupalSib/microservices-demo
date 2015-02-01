@@ -17,6 +17,10 @@ function microservices_microservices_info() {
   return array(
     MICROSERVICES_MANAGER => array(
       'title' => t('Microservices queue manager'),
+      'events' => array(
+        MICROSERVICES_MANAGER . ' ' . MICROSERVICES_QUEUE_REQUEST,
+        MICROSERVICES_MANAGER . ' ' . MICROSERVICES_QUEUE_REPLY,
+      ),
     ),
   );
 }
