@@ -132,11 +132,15 @@ function microservices_info() {
             && (isset($result[MICROSERVICES_MANAGER]))) {
           throw new Exception('Microservices manager should not been overridden');
         }
+        $machine_name = key($result);
         foreach($result as &$item) {
           $item['module'] = $module;
+          if (empty($item['title'])) {
+            $item['title'] = $machine_name;
+          }
         }
         if (isset($result) && is_array($result)) {
-          $services = array_merge_recursive($services, $result);
+          $services = array_merge($services, $result);
         }
         elseif (isset($result)) {
           $services[] = $result;
