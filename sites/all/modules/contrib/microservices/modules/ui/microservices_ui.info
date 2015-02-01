@@ -1,5 +1,5 @@
-name = Cron
-description = Cron functionality for microservices.
+name = User interface
+description = User interface for microservices.
 core = 7.x
 package = Microservices
 dependencies[] = microservices
