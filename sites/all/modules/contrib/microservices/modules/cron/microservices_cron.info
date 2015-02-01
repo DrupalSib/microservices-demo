@@ -1,0 +1,13 @@
+name = Cron
+description = Cron functionality for microservices.
+core = 7.x
+package = Microservices
+dependencies[] = microservices
+
+
+; Information added by Drupal.org packaging script on 2015-01-31
+version = "7.x-1.1"
+core = "7.x"
+project = "microservices"
+datestamp = "1422696783"
+

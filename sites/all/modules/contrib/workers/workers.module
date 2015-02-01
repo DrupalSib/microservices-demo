@@ -1,0 +1,53 @@
+<?php
+/**
+ * @file
+ */
+
+/**
+ * Implements hook_hook_info();
+ */
+function workers_hook_info() {
+  return array(
+    'workers_info' => array(
+      'group' => 'workers',
+    ),
+  );
+}
+
+/**
+ * @param $worker
+ *
+ * @throws \Exception
+ *
+ * @todo lock worker
+ * @todo workers list
+ */
+function workers_execute($worker) {
+  $info = workers_info();
+
+  if (!isset($info[$worker])) {
+    throw new Exception("Unknown worker: $worker");
+  }
+
+  foreach ($info[$worker]['actions'] as $name => $action) {
+    $function = isset($action['callback']) ? $action['callback'] : $name;
+    $params = isset($action['params']) ? $action['params'] : NULL;
+    if ($function($params, $name, $worker)) {
+      break;
+    }
+  }
+}
+
+/**
+ * @return array
+ */
+function workers_info() {
+  $cache = &drupal_static(__FUNCTION__);
+
+  if (!isset($cache)) {
+    $cache = module_invoke_all('workers_info');
+    drupal_alter('workers_info', $cache);
+  }
+
+  return $cache;
+}
