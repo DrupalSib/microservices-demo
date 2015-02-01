@@ -4,7 +4,7 @@
  */
 
 /**
- *  Implements hook_menu
+ * Implements hook_menu
  */
 function microservices_ui_menu() {
   $items['admin/microservices'] = array(
@@ -17,10 +17,20 @@ function microservices_ui_menu() {
 }
 
 /**
- *  Page callback for 'admin/microservices'
+ * Implements hook_permission().
+ */
+function microservices_ui_permission() {
+  return array(
+    'access microservices information' => array(
+      'title' => t('Access microservices information'),
+    ),
+  );
+}
+
+/**
+ * Page callback for 'admin/microservices'
  */
 function microservices_ui_dashboard() {
   $html = '<div id="dashboard"></div>';
   return $html;
 }
-
