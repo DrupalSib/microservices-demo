@@ -12,7 +12,6 @@ function microservices_ui_menu() {
     'page callback' => 'microservices_ui_dashboard',
     'access arguments' => array('access microservices information'),
   );
-
   return $items;
 }
 
@@ -48,5 +47,30 @@ function microservices_ui_theme($existing, $type, $theme, $path) {
  */
 function microservices_ui_dashboard() {
   $info = microservices_info();
+  global $base_url;
+  drupal_add_js(array('server' => $base_url), 'setting');
+  drupal_add_js(drupal_get_path('module', 'microservices_ui') . '/js/message_local.js');
   return theme('microservices_ui', array('info' => $info));
+}
+
+function microservices_ui_send_message() {
+  $message = (object) array (
+    //'broadcast' => TRUE,
+    'data' => (object) array (
+      'subject' => 'test',
+      'body' => 'testmessage',
+    ),
+    'channel' => 'microservices_ui_dashboard',
+    'callback' => 'microservices_ui_dashboard_js_callback'
+  );
+  nodejs_send_message($message);
+}
+
+/**
+ * Implements hook_nodejs_handlers_info().
+ */
+function microservices_ui_nodejs_handlers_info() {
+  return array(
+    drupal_get_path('module', 'microservices_ui') . '/js/message_callbacks.js',
+  );
 }
