@@ -3,3 +3,23 @@
  * @file
  */
 
+/**
+ *  Implements hook_menu
+ */
+function microservices_ui_menu() {
+  $items['admin/microservices'] = array(
+    'title' => 'Microservices',
+    'page callback' => 'microservices_ui_dashboard',
+    'access arguments' => array('access microservices information'),
+  );
+
+  return $items;
+}
+
+/**
+ *  Page callback for 'admin/microservices'
+ */
+function microservices_ui_dashboard() {
+
+}
+
