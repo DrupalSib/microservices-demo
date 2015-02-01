@@ -46,7 +46,7 @@ function microservices_hook_info() {
 }
 
 /**
- * @param $service
+ * @param string $service
  *
  * @throws \Exception
  */
@@ -58,8 +58,8 @@ function microservices_assert_service($service) {
 }
 
 /**
- * @param $service
- * @param $action
+ * @param string $service
+ * @param string $action
  *
  * @throws \Exception
  */
@@ -80,9 +80,9 @@ function microservices_assert_event($event) {
 }
 
 /**
- * @param $service
+ * @param string $service
  *
- * @return mixed
+ * @return string
  * @throws \Exception
  */
 function microservices_get_module_by_service($service) {
@@ -92,7 +92,7 @@ function microservices_get_module_by_service($service) {
 }
 
 /**
- * @param $type
+ * @param string $type
  *
  * @throws \Exception
  */
@@ -103,7 +103,7 @@ function microservices_assert_queue_type($type) {
 }
 
 /**
- * @param $event
+ * @param string $event
  *
  * @return array
  * @throws \Exception
@@ -186,10 +186,9 @@ function microservices_info() {
 }
 
 /**
- * @param      $event
- * @param      $params
- *
- * @param null $context
+ * @param string $event
+ * @param mixed $params
+ * @param mixed $context
  *
  * @throws \Exception
  */
@@ -204,11 +203,11 @@ function microservices_send_event($event, $params, $context = NULL) {
 }
 
 /**
- * @param      $service
- * @param      $action
- * @param      $params
- * @param null $sender
- * @param null $context
+ * @param string $service
+ * @param string $action
+ * @param mixed $params
+ * @param mixed $sender
+ * @param mixed $context
  *
  * @throws \Exception
  */
@@ -226,10 +225,9 @@ function microservices_send_action($service, $action, $params = NULL, $sender = 
 }
 
 /**
- * @param            $request
- * @param            $result
+ * @param object $request
+ * @param mixed $result
  * @param \Exception $error
- *
  *
  * @throws \Exception
  */
@@ -257,8 +255,8 @@ function microservices_send_result($request, $result, Exception $error = NULL) {
 }
 
 /**
- * @param $service
- * @param $type
+ * @param string $service
+ * @param string $type
  *
  * @return mixed
  * @throws \Exception
@@ -290,15 +288,15 @@ function microservices_queue($service, $type) {
 }
 
 /**
- * @param $message
- * @param $type
+ * @param object $message
+ * @param string $type
  *
  * @throws \Exception
  */
 function microservices_queue_send($message, $type) {
   microservices_assert_queue_type($type);
   $queue = microservices_queue(MICROSERVICES_MANAGER, $type);
-  // TODO: Remove Demo message
+  // todo Remove Demo message
 //  $service = MICROSERVICES_MANAGER;
 //  if ($message->type == 'action' || $message->type == 'result') {
 //    demo_log("$message->type: $message->sender -> $service");
@@ -310,8 +308,8 @@ function microservices_queue_send($message, $type) {
 }
 
 /**
- * @param $service
- * @param $type
+ * @param string $service
+ * @param string $type
  *
  * @return bool
  */
@@ -344,11 +342,12 @@ function microservices_queue_process($service, $type) {
 }
 
 /**
- * @param $message
+ * @param object $message
+ *
+ * @throws \Exception
  */
 function microservices_queue_process_message_manager($message) {
     switch ($message->type) {
-
       case MICROSERVICES_MESSAGE_ACTION:
         // Register message to avoid of double sending of results.
         $message->uuid = microservices_uuid();
@@ -391,13 +390,13 @@ function microservices_queue_process_message_manager($message) {
 }
 
 /**
- * @param $message
- * @param $service
+ * @param object $message
+ * @param string $service
  */
 function microservices_queue_process_message_service($message, $service) {
   $module = microservices_get_module_by_service($service);
-  switch ($message->type) {
 
+  switch ($message->type) {
     case MICROSERVICES_MESSAGE_ACTION:
       try {
         module_invoke($module, 'microservices_action', $message);
