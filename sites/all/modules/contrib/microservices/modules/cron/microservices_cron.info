@@ -1,6 +1,0 @@
-name = Cron
-description = Cron functionality for microservices.
-core = 7.x
-package = Microservices
-dependencies[] = microservices
-
