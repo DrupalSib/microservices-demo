@@ -1,0 +1,32 @@
+<?php
+/**
+ * @file
+ */
+
+/**
+ * Implements hook_menu().
+ */
+function endpoint_menu() {
+  $items['admin/config/system/endpoint']= array(
+    'title' => 'Endpoint callback handler',
+    'description' => 'Configure endpoint callback handler.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('endpoint_configure_form'),
+    'access arguments' => array('administer endpoint'),
+    'file' => 'endpoint.admin.inc',
+    'type' => MENU_NORMAL_ITEM,
+  );
+
+  return $items;
+}
+
+/**
+ * Implements hook_permission().
+ */
+function endpoint_permission() {
+  return array(
+    'administer endpoint' => array(
+      'title' => t('Administer endpoint callback handler settings'),
+    ),
+  );
+}
