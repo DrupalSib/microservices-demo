@@ -48,11 +48,5 @@ function microservices_ui_theme($existing, $type, $theme, $path) {
  */
 function microservices_ui_dashboard() {
   $info = microservices_info();
-  $html = theme(
-    'microservices_ui',
-    array(
-      'info' => $info,
-    )
-  );
-  return $html;
+  return theme('microservices_ui', array('info' => $info));
 }
