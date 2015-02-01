@@ -20,6 +20,7 @@ function microservices_ui_menu() {
  *  Page callback for 'admin/microservices'
  */
 function microservices_ui_dashboard() {
-
+  $html = '<div id="dashboard"></div>';
+  return $html;
 }
 
