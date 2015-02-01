@@ -28,9 +28,24 @@ function microservices_ui_permission() {
 }
 
 /**
- * Page callback for 'admin/microservices'
+ * Page callback for 'admin/microservices' path.
  */
 function microservices_ui_dashboard() {
-  $html = '<div id="dashboard"></div>';
+  $html = '<div id="dashboard">';
+  $header = array('cron', 'manager', 'ui');
+  $rows = array(
+    array('1','2','3'),
+  );
+  $html .= theme(
+    'table',
+    array(
+      'header' => $header,
+      'rows' => $rows,
+      'attributes' => array(
+        'sticky' => TRUE,
+      ),
+    )
+  );
+  $html .= '</div>';
   return $html;
 }
