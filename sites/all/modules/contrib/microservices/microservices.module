@@ -363,6 +363,14 @@ function microservices_queue_process_message_manager($message) {
           ->execute();
         $queue = microservices_queue($message->recipient, MICROSERVICES_QUEUE_REQUEST);
         $queue->createItem(json_encode($message));
+
+        microservices_send_event(
+          MICROSERVICES_MANAGER . ' ' . MICROSERVICES_QUEUE_REQUEST,
+          array(
+            'action' => $message->action,
+            'receiver' => $message->receiver,
+          )
+        );
         break;
 
       case MICROSERVICES_MESSAGE_RESULT:
@@ -382,12 +390,28 @@ function microservices_queue_process_message_manager($message) {
         db_delete('microservices_actions')
           ->condition('id', $action->id)
           ->execute();
+
+        microservices_send_event(
+          MICROSERVICES_MANAGER . ' ' . MICROSERVICES_QUEUE_REPLY,
+          array(
+            'action' => $message->action,
+            'receiver' => $message->receiver,
+          )
+        );
         break;
 
       case MICROSERVICES_MESSAGE_EVENT:
         foreach (microservices_get_event_binders($message->event) as $service) {
           $queue = microservices_queue($service, MICROSERVICES_QUEUE_REQUEST);
           $queue->createItem(json_encode($message));
+
+          microservices_send_event(
+            MICROSERVICES_MANAGER . ' ' . MICROSERVICES_QUEUE_REQUEST,
+            array(
+              'action' => $message->action,
+              'receiver' => $message->receiver,
+            )
+          );
         }
         break;
     }
