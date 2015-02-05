@@ -20,7 +20,7 @@ Drupal.behaviors.nodejs = {
 Drupal.Nodejs.runCallbacks = function (message) {
   // It's possible that this message originated from an ajax request from the
   // client associated with this socket.
-  if (message.clientSocketId == Drupal.Nodejs.socket.sessionid) {
+  if (message.clientSocketId == Drupal.Nodejs.socket.socket.sessionid) {
     return;
   }
   if (message.callback) {
@@ -98,7 +98,7 @@ Drupal.Nodejs.connect = function () {
       // in to other modules ajax requests without having to patch them.
       Drupal.Nodejs.originalBeforeSerialize = Drupal.ajax.prototype.beforeSerialize;
       Drupal.ajax.prototype.beforeSerialize = function(element_settings, options) {
-        options.data['nodejs_client_socket_id'] = Drupal.Nodejs.socket.sessionid;
+        options.data['nodejs_client_socket_id'] = Drupal.Nodejs.socket.socket.sessionid;
         return Drupal.Nodejs.originalBeforeSerialize(element_settings, options);
       };
     }
@@ -116,7 +116,7 @@ Drupal.Nodejs.connect = function () {
 };
 
 Drupal.Nodejs.checkConnection = function () {
-  if (!Drupal.Nodejs.socket.connected) {
+  if (!Drupal.Nodejs.socket.socket.connected) {
     Drupal.Nodejs.runSetupHandlers('connectionFailure');
   }
 };

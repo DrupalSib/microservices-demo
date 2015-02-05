@@ -546,9 +546,7 @@ function nodejs_message_handler() {
       $handlers = array();
       foreach (module_implements('nodejs_message_callback') as $module) {
         $function = $module . '_nodejs_message_callback';
-        if (is_array($function($message['messageType']))) {
-          $handlers += $function($message['messageType']);
-        }
+        $handlers += $function($message['messageType']);
       }
       foreach ($handlers as $callback) {
         $callback($message, $response);
@@ -603,8 +601,7 @@ function nodejs_auth_check($message) {
  * Default Node.js auth check callback implementation.
  */
 function nodejs_auth_check_callback($auth_token) {
-  $sql = "SELECT uid FROM {sessions} WHERE MD5(sid) = :auth_key OR MD5(ssid) = :auth_key";
-  return db_query($sql, array(':auth_key' => $auth_token))->fetchField();
+  return db_query("SELECT uid FROM {sessions} WHERE MD5(sid) = :auth_key", array(':auth_key' => $auth_token))->fetchField();
 }
 
 /**
