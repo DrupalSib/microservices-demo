@@ -3,6 +3,38 @@
  * @file
  */
 
+define('MICROSERVICES_UI_MAIN_PERMISSION', 'access microservices information');
+define('MICROSERVICES_LOG', 'microservices_log');
+
+/**
+ * Implements hook_nodejs_handlers_info().
+ */
+function microservices_ui_nodejs_handlers_info() {
+  return array(
+    drupal_get_path('module', 'microservices_ui') . '/microservices_ui.js',
+  );
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function microservices_ui_form_dblog_filter_form_alter(&$form, &$form_state, $form_id) {
+  nodejs_send_content_channel_token(MICROSERVICES_LOG);
+  drupal_add_js(drupal_get_path('module', 'microservices_ui') .
+    '/microservices_ui.js', array('type' => 'file'));
+}
+
+/**
+ * Implements hook_nodejs_user_channels().
+ */
+function microservices_ui_nodejs_user_channels($account) {
+  if (user_access(MICROSERVICES_UI_MAIN_PERMISSION, $account)) {
+    return array(MICROSERVICES_LOG);
+  }
+
+  return array();
+}
+
 /**
  * Implements hook_menu
  */
@@ -10,7 +42,7 @@ function microservices_ui_menu() {
   $items['admin/microservices'] = array(
     'title' => 'Microservices',
     'page callback' => 'microservices_ui_dashboard',
-    'access arguments' => array('access microservices information'),
+    'access arguments' => array(MICROSERVICES_UI_MAIN_PERMISSION),
   );
 
   return $items;
@@ -21,7 +53,7 @@ function microservices_ui_menu() {
  */
 function microservices_ui_permission() {
   return array(
-    'access microservices information' => array(
+    MICROSERVICES_UI_MAIN_PERMISSION => array(
       'title' => t('Access microservices information'),
     ),
   );
@@ -40,6 +72,7 @@ function microservices_ui_theme($existing, $type, $theme, $path) {
     'variables' => array('info' => NULL),
     'file' => 'theme.inc',
   );
+
   return $items;
 }
 
@@ -48,5 +81,6 @@ function microservices_ui_theme($existing, $type, $theme, $path) {
  */
 function microservices_ui_dashboard() {
   $info = microservices_info();
+
   return theme('microservices_ui', array('info' => $info));
 }

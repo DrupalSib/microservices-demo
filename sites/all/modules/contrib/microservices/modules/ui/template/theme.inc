@@ -19,6 +19,7 @@ function microservices_ui_preprocess(&$variables) {
         'rows' => $rows,
         'attributes' => array(
           'sticky' => TRUE,
+          'id' => 'micro-db'
         ),
       )
     );

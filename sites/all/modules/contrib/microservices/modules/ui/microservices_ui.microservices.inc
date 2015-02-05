@@ -3,7 +3,7 @@
  * @file
  */
 
-/*
+/**
  * Implements hook_microservices_info().
  */
 function microservices_ui_microservices_info() {
@@ -18,10 +18,16 @@ function microservices_ui_microservices_info() {
   );
 }
 
-/*
+/**
  * Implements hook_microservices_event().
  */
-function microservices_ui_microservices_event($message) {
-  $a = 4;
-  $a = 4;
+function microservices_ui_microservices_event($log) {
+  drush_print(drupal_json_encode($log));
+  $commands[] = ajax_command_before('#micro-db tr:eq(1)', drupal_json_encode($log));
+  $message = (object) array(
+    'channel' => MICROSERVICES_LOG,
+    'commands' => $commands,
+    'callback' => 'microservices_ui_dashboard_js_callback',
+  );
+  nodejs_send_content_channel_message($message);
 }
