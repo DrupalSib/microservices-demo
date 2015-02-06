@@ -16,23 +16,10 @@ function microservices_ui_nodejs_handlers_info() {
 }
 
 /**
- * Implements hook_form_FORM_ID_alter().
- */
-function microservices_ui_form_dblog_filter_form_alter(&$form, &$form_state, $form_id) {
-  nodejs_send_content_channel_token(MICROSERVICES_LOG);
-  drupal_add_js(drupal_get_path('module', 'microservices_ui') .
-    '/microservices_ui.js', array('type' => 'file'));
-}
-
-/**
  * Implements hook_nodejs_user_channels().
  */
 function microservices_ui_nodejs_user_channels($account) {
-  if (user_access(MICROSERVICES_UI_MAIN_PERMISSION, $account)) {
-    return array(MICROSERVICES_LOG);
-  }
-
-  return array();
+  return array(MICROSERVICES_LOG);
 }
 
 /**
@@ -80,6 +67,8 @@ function microservices_ui_theme($existing, $type, $theme, $path) {
  */
 function microservices_ui_dashboard() {
   $info = microservices_info();
+  nodejs_send_content_channel_token(MICROSERVICES_LOG);
+  drupal_add_js(drupal_get_path('module', 'microservices_ui') . '/microservices_ui.js', array('type' => 'file'));
 
   return theme('microservices_ui', array('info' => $info));
 }

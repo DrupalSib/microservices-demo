@@ -8,7 +8,7 @@ function microservices_ui_preprocess(&$variables) {
     if (!empty($variables['info']['services'])) {
       foreach ($variables['info']['services'] as $service ) {
         $header[] = $service['title'];
-        $rows['data'][] = '-';
+        $rows['data'][] = '';
       }
     }
 

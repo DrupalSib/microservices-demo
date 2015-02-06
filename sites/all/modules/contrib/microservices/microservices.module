@@ -330,10 +330,10 @@ function microservices_queue_process($service, $type) {
       if ($type) {
         if ($message->type == 'action' || $message->type == 'result') {
           $action = isset($message->action) ? $message->action : $message->result;
-          demo_log("$message->type: $message->sender -> $message->recipient | $action");
+          drush_print("$message->type: $message->sender -> $message->recipient | $action");
         }
         else {
-          demo_log("$message->type: $message->event -> all subscribers");
+          drush_print("$message->type: $message->event -> all subscribers");
         }
       }
       microservices_queue_process_message_service($message, $service);

@@ -22,8 +22,11 @@ function microservices_ui_microservices_info() {
  * Implements hook_microservices_event().
  */
 function microservices_ui_microservices_event($log) {
-  drush_print(drupal_json_encode($log));
-  $commands[] = ajax_command_before('#micro-db tr:eq(1)', drupal_json_encode($log));
+  $output = '<tr>';
+  $output .= _theme_table_cell(drupal_json_encode($log));
+  $output .= "</tr>";
+
+  $commands[] = ajax_command_before('#micro-db tr:eq(1)', $output);
   $message = (object) array(
     'channel' => MICROSERVICES_LOG,
     'commands' => $commands,
