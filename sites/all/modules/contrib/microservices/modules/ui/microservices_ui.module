@@ -64,7 +64,6 @@ function microservices_ui_permission() {
  */
 function microservices_ui_theme($existing, $type, $theme, $path) {
   $path = $path . '/template';
-  $items = array();
 
   $items['microservices_ui'] = array(
     'path' => $path,
