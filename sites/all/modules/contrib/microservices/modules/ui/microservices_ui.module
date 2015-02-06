@@ -52,7 +52,7 @@ function microservices_ui_permission() {
 function microservices_ui_theme($existing, $type, $theme, $path) {
   $path = $path . '/template';
 
-  $items['microservices_ui'] = array(
+    $items['microservices_table_logs'] = array(
     'path' => $path,
     'template' => 'microservices-ui-dashboard',
     'variables' => array('info' => NULL),
@@ -70,5 +70,5 @@ function microservices_ui_dashboard() {
   nodejs_send_content_channel_token(MICROSERVICES_LOG);
   drupal_add_js(drupal_get_path('module', 'microservices_ui') . '/microservices_ui.js', array('type' => 'file'));
 
-  return theme('microservices_ui', array('info' => $info));
+  return theme('microservices_table_logs', array('info' => $info));
 }

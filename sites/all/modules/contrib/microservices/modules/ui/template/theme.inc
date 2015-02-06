@@ -1,6 +1,10 @@
 <?php
 
-function microservices_ui_preprocess(&$variables) {
+/**
+ * Implements template_preprocess_microservices_logs.
+ * @param $variables
+ */
+function microservices_ui_preprocess_microservices_logs(&$variables) {
   if (!empty($variables['info'])) {
     $header = array();
     $rows = array();
