@@ -2,6 +2,7 @@
   Drupal.Nodejs.callbacks.microservices_ui_dashboard_js_callback = {
     callback: function (message) {
       Drupal.nodejs_ajax.runCommands(message);
+      // Set even/odd class for new elements.
       $(".divRow:even").removeClass('odd').addClass('even');
       $(".divRow:odd").removeClass('even').addClass('odd');
 
@@ -12,6 +13,7 @@
         }
       });
 
+      // Set "border" for table log.
       if ($('.divRow').length > Drupal.settings.microservices.table_size) {
         $('.divRow').last().remove();
       }

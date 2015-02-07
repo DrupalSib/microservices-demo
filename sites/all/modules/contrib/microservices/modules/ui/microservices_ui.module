@@ -72,7 +72,8 @@ function microservices_ui_dashboard() {
   drupal_add_js(
     array(
       'microservices' => array(
-        'table_size' => variable_get('microservices_table_log_size', 10)
+        'table_size' => variable_get('microservices_table_log_size', 10),
+        'default_excluded_options' => variable_get('microservices_default_excluded_options', array('manager', 'ui')),
       )
     ),
     'setting'
