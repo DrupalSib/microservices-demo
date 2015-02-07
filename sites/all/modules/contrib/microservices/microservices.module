@@ -16,10 +16,9 @@ define('MICROSERVICES_MESSAGE_RESULT', 'result');
 function microservices_microservices_info() {
   return array(
     MICROSERVICES_MANAGER => array(
-      'title' => t('Microservices queue manager'),
+      'title' => t('Manager'),
       'events' => array(
-        MICROSERVICES_MANAGER . ' ' . MICROSERVICES_QUEUE_REQUEST,
-        MICROSERVICES_MANAGER . ' ' . MICROSERVICES_QUEUE_REPLY,
+        'manager activity',
       ),
     ),
   );
@@ -365,10 +364,11 @@ function microservices_queue_process_message_manager($message) {
         $queue->createItem(json_encode($message));
 
         microservices_send_event(
-          MICROSERVICES_MANAGER . ' ' . MICROSERVICES_QUEUE_REQUEST,
+          'manager activity',
           array(
-            'action' => $message->action,
-            'receiver' => $message->receiver,
+            'type' => MICROSERVICES_MESSAGE_ACTION,
+            'name' => $message->action,
+            'recipient' => $message->recipient,
           )
         );
         break;
@@ -392,10 +392,12 @@ function microservices_queue_process_message_manager($message) {
           ->execute();
 
         microservices_send_event(
-          MICROSERVICES_MANAGER . ' ' . MICROSERVICES_QUEUE_REPLY,
+          'manager activity',
           array(
-            'action' => $message->action,
-            'receiver' => $message->receiver,
+            'type' => MICROSERVICES_MESSAGE_RESULT,
+            'name' => $message->action,
+            'recipient' => $message->recipient,
+            'sender' => $message->sender,
           )
         );
         break;
@@ -404,14 +406,16 @@ function microservices_queue_process_message_manager($message) {
         foreach (microservices_get_event_binders($message->event) as $service) {
           $queue = microservices_queue($service, MICROSERVICES_QUEUE_REQUEST);
           $queue->createItem(json_encode($message));
-
-          microservices_send_event(
-            MICROSERVICES_MANAGER . ' ' . MICROSERVICES_QUEUE_REQUEST,
-            array(
-              'action' => $message->action,
-              'receiver' => $message->receiver,
-            )
-          );
+          if ($message->event != 'manager activity') {
+            microservices_send_event(
+              'manager activity',
+              array(
+                'type' => MICROSERVICES_MESSAGE_EVENT,
+                'name' => $message->event,
+                'recipient' => $service,
+              )
+            );
+          }
         }
         break;
     }

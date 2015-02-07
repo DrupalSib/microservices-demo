@@ -67,8 +67,21 @@ function microservices_ui_theme($existing, $type, $theme, $path) {
  */
 function microservices_ui_dashboard() {
   $info = microservices_info();
+
+  // Table log size.
+  drupal_add_js(
+    array(
+      'microservices' => array(
+        'table_size' => variable_get('microservices_table_log_size', 10)
+      )
+    ),
+    'setting'
+  );
+
   nodejs_send_content_channel_token(MICROSERVICES_LOG);
+  drupal_add_css(drupal_get_path('module', 'microservices_ui') . '/microservices_ui.css', array('type' => 'file'));
   drupal_add_js(drupal_get_path('module', 'microservices_ui') . '/microservices_ui.js', array('type' => 'file'));
+  drupal_add_js(drupal_get_path('module', 'microservices_ui') . '/microservices_ui_main.js', array('type' => 'file'));
 
   return theme('microservices_logs', array('info' => $info));
 }

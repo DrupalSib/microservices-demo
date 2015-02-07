@@ -12,10 +12,11 @@ function microservices_test_service_foo_microservices_workers_info() {
       'title' => t('Foo test worker'),
       'services' => array(
         MICROSERVICES_MANAGER,
-        MICROSERVICES_CRON,
-        MICROSERVICES_BATCH,
+//        MICROSERVICES_CRON,
+//        MICROSERVICES_BATCH,
         'foo',
         'bar',
+        'ui'
       ),
     ),
   );

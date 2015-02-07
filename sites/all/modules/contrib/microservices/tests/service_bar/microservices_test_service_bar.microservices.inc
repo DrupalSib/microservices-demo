@@ -9,6 +9,7 @@
 function microservices_test_service_bar_microservices_info() {
   return array(
     'bar' => array(
+      'title' => 'Bar',
       'actions' => array(
         'create',
       ),

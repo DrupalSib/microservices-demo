@@ -9,6 +9,7 @@
 function microservices_batch_microservices_info() {
   return array(
     MICROSERVICES_BATCH => array(
+      'title' => t('Batch'),
       'actions' => array(
         'execute',
       ),

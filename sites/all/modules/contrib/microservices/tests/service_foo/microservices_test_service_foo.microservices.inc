@@ -9,6 +9,7 @@
 function microservices_test_service_foo_microservices_info() {
   return array(
     'foo' => array(
+      'title' => 'Foo',
       'events' => array(
         'wake up',
       ),
